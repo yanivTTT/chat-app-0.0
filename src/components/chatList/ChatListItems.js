@@ -5,15 +5,20 @@ export default class ChatListItems extends Component {
   constructor(props) {
     super(props);
   }
+  //this adds the css of active to the one we chose
   selectChat = (e) => {
     for (
       let index = 0;
       index < e.currentTarget.parentNode.children.length;
-      index++
-    ) {
+      index++) 
+      {
       e.currentTarget.parentNode.children[index].classList.remove("active");
+      if(e.currentTarget.parentNode.children[index] == e.currentTarget) {
+        this.props.changeChat(index);
+      }
     }
     e.currentTarget.classList.add("active");
+    
   };
 
   render() {
