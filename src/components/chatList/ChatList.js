@@ -1,62 +1,15 @@
+//this showes the list of chat in our app
 import React, { Component } from 'react'
 import "./chatList.css"
 import ChatListItems from './ChatListItems';
 
 export default class ChatList extends Component {
-    allChatUsers = [
-        {
-          image:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU",
-          id: 1,
-          name: "Tim Hover",
-          active: true,
-        },
-        {
-          image:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTQEZrATmgHOi5ls0YCCQBTkocia_atSw0X-Q&usqp=CAU",
-          id: 3,
-          name: "Hamaad Dejesus",
-          active: false,
-        },
-        {
-          image:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRZ6tM7Nj72bWjr_8IQ37Apr2lJup_pxX_uZA&usqp=CAU",
-          id: 4,
-          name: "Eleni Hobbs",
-          active: false,
-        },
-        {
-          image:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRJo1MiPQp3IIdp54vvRDXlhbqlhXW9v1v6kw&usqp=CAU",
-          id: 5,
-          name: "Elsa Black",
-          active: false,
-        },
-        {
-          image:
-            "https://huber.ghostpool.com/wp-content/uploads/avatars/3/596dfc2058143-bpfull.png",
-          id: 6,
-          name: "Kayley Mellor",
-          active: false,
-        },
-        {
-          image:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSM6p4C6imkewkCDW-9QrpV-MMAhOC7GnJcIQ&usqp=CAU",
-          id: 9,
-          name: "Allen Woodley",
-          active: false,
-        },
-        {
-          image: "https://pbs.twimg.com/profile_images/770394499/female.png",
-          id: 10,
-          name: "Manpreet David",
-          active: false,
-        },
-      ];
+  //it wil be smart to add also  a chat to each one that getting passed of in ChatContent
+
       constructor(props) {
         super(props);
         this.state = {
-          allChats: this.allChatUsers,
+          allChats: this.props.allChatUsers,
         };
       }
   render() {
@@ -66,7 +19,7 @@ export default class ChatList extends Component {
         <span>New Conv</span>
         </button>
         <div className='chatlist_heading'>
-            <h2>NameOfUser</h2>
+            <h2>{this.props.state.user.name}</h2>
             <button className='btn-nobg'>
             <i className='fa fa-ellipsis-h'></i>
             </button>
@@ -85,8 +38,8 @@ export default class ChatList extends Component {
                 key={item.id}
                 animationDelay={index + 1}
                 active={item.active ? "active" : ""}
-                isOnline={item.isOnline ? "active" : ""}
                 image={item.image}
+                changeChat = {this.props.changeChat.bind(this)}
               />
             );
             })}

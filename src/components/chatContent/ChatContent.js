@@ -6,62 +6,11 @@ import ChatItem from "./ChatItem";
 
 export default class ChatContent extends Component {
   messagesEndRef = createRef(null);
-  chatItms = [
-    {
-      key: 1,
-      image:
-        "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
-      type: "",
-      msg: "Hi Tim, How are you?",
-    },
-    {
-      key: 2,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU",
-      type: "other",
-      msg: "I am fine.",
-    },
-    {
-      key: 3,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU",
-      type: "other",
-      msg: "What about you?",
-    },
-    {
-      key: 4,
-      image:
-        "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
-      type: "",
-      msg: "Awesome these days.",
-    },
-    {
-      key: 5,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU",
-      type: "other",
-      msg: "Finally. What's the plan?",
-    },
-    {
-      key: 6,
-      image:
-        "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
-      type: "",
-      msg: "what plan mate?",
-    },
-    {
-      key: 7,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU",
-      type: "other",
-      msg: "I'm taliking about the tutorial",
-    },
-  ];
 
   constructor(props) {
     super(props);
     this.state = {
-      chat: this.chatItms,
+       //our chat we pass on as varible
       msg: "",
     };
   }
@@ -70,18 +19,27 @@ export default class ChatContent extends Component {
     this.messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
+
+  lastKey() {
+    var keys = Object.keys(this.props.state.chatItms[this.props.state.user_chat]);
+    var last = keys[keys.length - 1];
+    console.log(last);
+    return last + 1;
+  }
+
   componentDidMount() {
     window.addEventListener("keydown", (e) => {
       if (e.keyCode == 13) {
         if (this.state.msg != "") {
-          this.chatItms.push({
-            key: 1,
+          this.props.state.chatItms[this.props.state.user_chat].push({
+            key: this.lastKey(),
             type: "",
             msg: this.state.msg,
             image:
-              "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
+              this.props.state.user.image, 
           });
-          this.setState({ chat: [...this.chatItms] });
+          //this.setState({ chat: [...this.props.state.chat[0]] });
+          this.props.addToChat(this.props.state.chatItms);
           this.scrollToBottom();
           this.setState({ msg: "" });
         }
@@ -90,10 +48,11 @@ export default class ChatContent extends Component {
     this.scrollToBottom();
   }
   onStateChange = (e) => {
-    this.setState({ msg: e.target.value });
+    this.setState({msg: e.target.value });
   };
 
   render() {
+
     return (
       <div className="main__chatcontent">
         <div className="content__header">
@@ -101,9 +60,9 @@ export default class ChatContent extends Component {
             <div className="current-chatting-user">
               <Avatar
                 isOnline="active"
-                image="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU"
+                image={this.props.state.chat_users[this.props.state.user_chat].image}
               />
-              <p>Tim Hover</p>
+              <p>{this.props.state.chat_users[this.props.state.user_chat].name}</p>
             </div>
           </div>
 
@@ -117,16 +76,28 @@ export default class ChatContent extends Component {
         </div>
         <div className="content__body">
           <div className="chat__items">
-            {this.state.chat.map((itm, index) => {
+            {this.props.state.chatItms[this.props.state.user_chat].map((itm, index) => {
+              if(itm.type == "") {
+                return (
+                  <ChatItem
+                    animationDelay={index + 2}
+                    key={itm.key}
+                    user={itm.type ? itm.type : "me"}
+                    msg={itm.msg}
+                    image={"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSM6p4C6imkewkCDW-9QrpV-MMAhOC7GnJcIQ&usqp=CAU"} //need to cahnge it here to having my picture
+                  />
+                );
+              } else {
               return (
-                <ChatItem
-                  animationDelay={index + 2}
-                  key={itm.key}
-                  user={itm.type ? itm.type : "me"}
-                  msg={itm.msg}
-                  image={itm.image}
-                />
+                  <ChatItem
+                    animationDelay={index + 2}
+                    key={itm.key}
+                    user={itm.type ? itm.type : "me"}
+                    msg={itm.msg}
+                    image={this.props.state.chat_users[this.props.state.user_chat].image}
+                  />
               );
+              }
             })}
             <div ref={this.messagesEndRef} />
           </div>
