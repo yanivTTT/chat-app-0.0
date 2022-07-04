@@ -32,12 +32,12 @@
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     transition: all 0.3s ease;
     transform: scale(0);
     transform-origin: right;
     animation-name: showIn;
-    animation-duration: 0.1s; /* or: Xms */
+    animation-duration: 0.2s; /* or: Xms */
     animation-iteration-count: 1;
     animation-direction: normal; /* or: normal */
     animation-timing-function: cubic-bezier(
@@ -143,20 +143,4 @@
   #sendMsgBtn {
     background-color: #3b5bfe;
     color: #fff;
-  }
-  .uploadImage {
-    max-width: 100%;
-    object-fit: contain;
-  }
-  .imagePart {
-    width: 100%;
-    border: 1px solid black;
-  }
-  .uploadVideo {
-    max-width: 100%;
-    object-fit: contain;
-  }
-  .imageVideo {
-    width: 100px;
-    border: 1px solid black;
   }
